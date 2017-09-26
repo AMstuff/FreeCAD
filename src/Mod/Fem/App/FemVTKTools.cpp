@@ -905,6 +905,9 @@ void FemVTKTools::importMechanicalResult(vtkSmartPointer<vtkDataSet> dataset, Ap
     vectors["DisplacementVectors"] = "Displacement";
     vectors["StrainVectors"] = "Strain vectors";
     vectors["StressVectors"] = "Stress vectors";
+    vectors["PrincipalMaxStressVectors"] = "Maximum Principal Stress Vectors";
+    vectors["PrincipalMedStressVectors"] = "Median Principal Stress Vectors";
+    vectors["PrincipalMinStressVectors"] = "Minimum Principal Stress Vectors";
     std::map<std::string, std::string> scalers;  // App::FloatListProperty name -> vtk name
     scalers["UserDefined"] = "User Defined Results";
     scalers["Temperature"] = "Temperature";
@@ -946,6 +949,9 @@ void FemVTKTools::exportMechanicalResult(const App::DocumentObject* res, vtkSmar
     vectors["DisplacementVectors"] = "Displacement";
     vectors["StrainVectors"] = "Strain vectors";
     vectors["StressVectors"] = "Stress vectors";
+    vectors["PrincipalMaxStressVectors"] = "Maximum Principal Stress Vectors";
+    vectors["PrincipalMedStressVectors"] = "Median Principal Stress Vectors";
+    vectors["PrincipalMinStressVectors"] = "Minimum Principal Stress Vectors";
     std::map<std::string, std::string> scalers;  // App::FloatListProperty name -> vtk name
     scalers["UserDefined"] = "User Defined Results";
     scalers["Temperature"] = "Temperature";

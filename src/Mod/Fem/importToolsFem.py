@@ -253,30 +253,43 @@ def fill_femresult_mechanical(results, result_set, span):
             stress = result_set['stress']
             if len(stress) > 0:
                 mstress = []
-                prinstress1 = []
-                prinstress2 = []
-                prinstress3 = []
+                prinstress_max = []
+                prinstress_med = []
+                prinstress_min = []
+                prinstressvectors_max =[]
+                prinstressvectors_med =[]
+                prinstressvectors_min =[]
                 shearstress = []
                 for i in stress.values():
                     mstress.append(calculate_von_mises(i))
-                    prin1, prin2, prin3, shear = calculate_principal_stress(i)
-                    prinstress1.append(prin1)
-                    prinstress2.append(prin2)
-                    prinstress3.append(prin3)
+                    principal_stresses, principal_stress_vectors  = calculate_principal_stress(i)
+
+                    prinstress_max.append(principal_stresses[0])
+                    prinstress_med.append(principal_stresses[1])
+                    prinstress_min.append(principal_stresses[2])
+                    prinstressvectors_max.append(principal_stress_vectors[0])
+                    prinstressvectors_med.append(principal_stress_vectors[1])
+                    prinstressvectors_min.append(principal_stress_vectors[2])
+                    shear = (principal_stresses[0] - principal_stresses[2]) / 2.0
                     shearstress.append(shear)
                 if eigenmode_number > 0:
                     results.StressValues = list(map((lambda x: x * scale), mstress))
-                    results.PrincipalMax = list(map((lambda x: x * scale), prinstress1))
-                    results.PrincipalMed = list(map((lambda x: x * scale), prinstress2))
-                    results.PrincipalMin = list(map((lambda x: x * scale), prinstress3))
+                    results.PrincipalMax = list(map((lambda x: x * scale), prinstress_max))
+                    results.PrincipalMed = list(map((lambda x: x * scale), prinstress_med))
+                    results.PrincipalMin = list(map((lambda x: x * scale), prinstress_min))
                     results.MaxShear = list(map((lambda x: x * scale), shearstress))
                     results.Eigenmode = eigenmode_number
                 else:
                     results.StressValues = mstress
-                    results.PrincipalMax = prinstress1
-                    results.PrincipalMed = prinstress2
-                    results.PrincipalMin = prinstress3
+                    results.PrincipalMax = prinstress_max
+                    results.PrincipalMed = prinstress_med
+                    results.PrincipalMin = prinstress_min
                     results.MaxShear = shearstress
+
+                results.PrincipalMaxStressVectors = prinstressvectors_max
+                results.PrincipalMedStressVectors = prinstressvectors_med
+                results.PrincipalMinStressVectors = prinstressvectors_min
+
             stress_keys = list(stress.keys())
             if (results.NodeNumbers != 0 and results.NodeNumbers != stress_keys):
                 print("Inconsistent FEM results: element number for Stress doesn't equal element number for Displacement {} != {}"
@@ -420,16 +433,24 @@ def calculate_von_mises(i):
 
 
 def calculate_principal_stress(i):
+
     sigma = np.array([[i[0], i[3], i[5]],
                       [i[3], i[1], i[4]],
                       [i[5], i[4], i[2]]])
-    # compute principal stresses
-    eigvals = list(np.linalg.eigvalsh(sigma))
-    eigvals.sort()
-    eigvals.reverse()
-    maxshear = (eigvals[0] - eigvals[2]) / 2.0
-    return (eigvals[0], eigvals[1], eigvals[2], maxshear)
+    # compute principal stresses and their respective eigenvectors
+    eigvals, eigvecs = np.linalg.eigh(sigma)
 
+    # reverse both vectors, so that the biggest stress is first
+    principal_stresses = list(eigvals)
+    principal_stresses.reverse()
+
+    # Eigenvectors are sorted and normalized by numpy (reverse the order)
+    princ_vec_min = FreeCAD.Vector(eigvecs[:, 0].tolist())
+    princ_vec_med = FreeCAD.Vector(eigvecs[:, 1].tolist())
+    princ_vec_max = FreeCAD.Vector(eigvecs[:, 2].tolist())
+    principal_stress_vectors = [princ_vec_max, princ_vec_med, princ_vec_min]
+
+    return principal_stresses, principal_stress_vectors
 
 def calculate_disp_abs(displacements):
     disp_abs = []

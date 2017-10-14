@@ -65,6 +65,10 @@ class _FemResultMechanical():
 
         obj.addProperty("App::PropertyFloatList", "PrincipalMin", "Fem", "", True)
 
+        obj.addProperty("App::PropertyVectorList", "PrincipalMaxStressVectors", "Fem", "List of max principal stress vectors", True)
+        obj.addProperty("App::PropertyVectorList", "PrincipalMedStressVectors", "Fem", "List of med principal stress vectors", True)
+        obj.addProperty("App::PropertyVectorList", "PrincipalMinStressVectors", "Fem", "List of min principal stress vectors", True)
+
         obj.addProperty("App::PropertyFloatList", "MaxShear", "Fem", "List of Maximum Shear stress values", True)
 
         obj.addProperty("App::PropertyFloatList", "MassFlowRate", "Fem", "List of mass flow rate values", True)

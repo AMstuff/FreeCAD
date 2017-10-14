@@ -420,9 +420,9 @@ def calculate_von_mises(i):
 
 
 def calculate_principal_stress(i):
-    sigma = np.array([[i[0], i[3], i[4]],
-                      [i[3], i[1], i[5]],
-                      [i[4], i[5], i[2]]])
+    sigma = np.array([[i[0], i[3], i[5]],
+                      [i[3], i[1], i[4]],
+                      [i[5], i[4], i[2]]])
     # compute principal stresses
     eigvals = list(np.linalg.eigvalsh(sigma))
     eigvals.sort()

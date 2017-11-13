@@ -38,6 +38,7 @@ SET(FemCommands_SRCS
 SET(FemInOut_SRCS
     feminout/__init__.py
     feminout/convert2TetGen.py
+    feminout/importAnsysRstResults.py
     feminout/importCcxDatResults.py
     feminout/importCcxFrdResults.py
     feminout/importFenicsMesh.py

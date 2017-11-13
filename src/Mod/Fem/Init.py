@@ -43,3 +43,4 @@ FreeCAD.addImportType("Mesh from Calculix/Abaqus input file (*.inp)", "feminout.
 FreeCAD.addImportType("Z88 mesh (i1) file (*.txt)", "feminout.importZ88Mesh")
 FreeCAD.addExportType("Z88 mesh (i1) file (*.txt)", "feminout.importZ88Mesh")
 FreeCAD.addImportType("Z88 displacement (o2) result file (*.txt)", "feminout.importZ88O2Results")
+FreeCAD.addImportType("Ansys displacement result file (*.rst)", "feminout.importAnsysRstResults")

@@ -492,11 +492,13 @@ App::DocumentObject* FemVTKTools::readResult(const char* filename, App::Document
 
     auto hGrp = App::GetApplication().GetParameterGroupByPath("User parameter:BaseApp/Preferences/Units");
     int unitSchema = hGrp->GetInt("UserSchema",0);
+
     float scale = 1.0;
-    if(unitSchema == 0)  // standard mm
-    {
-        scale = 1000.0;  // convert from meter in length of CFD result file
-    }
+//     VTKs scale is not always in m
+//     if(unitSchema == 0)  // standard mm
+//     {
+//         scale = 1000.0;  // convert from meter in length of CFD result file
+//     }
 
     vtkSmartPointer<vtkDataSet> ds;
     if(f.hasExtension("vtu"))

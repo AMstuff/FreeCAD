@@ -101,7 +101,7 @@ def import_ansys_rst(filename):
         attrname = 'NodalResult{:03d}'.format(int(key))
         results.addProperty("App::PropertyVectorList", attrname,
                             "Fem userdefined", attrname, True)
-        current_res = [FreeCAD.Vector(b[0:3]) for a insorted(res.items())
+        current_res = [FreeCAD.Vector(b[0:3]) for a in sorted(res.items())
                        for b in list(a)[1:]]
         setattr(results, attrname, current_res)
 

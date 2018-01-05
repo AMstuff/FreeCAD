@@ -67,7 +67,7 @@ def import_ansys_rst(filename):
 
     # get geometry by writing a vtu file with pyansys
     tf = tempfile.mkstemp(suffix='.vtu')[1]
-    pya.uGrid.WriteGrid(tf)
+    pya.grid.Write(tf)
     # readResult always creates a new femmesh named ResultMesh
     Fem.readResult(tf, result_obj.Name)
     os.remove(tf)

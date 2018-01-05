@@ -118,7 +118,7 @@ def get_results(pya):
         nnum = pya.nnum.tolist()
         number_results = pya.resultheader['nsets']
 
-        # First we're retrieving and safing all results
+        # First we're retrieving and saving all results
         stress_i = {}
         nodal_i = {}
         for i in range(0, number_results):
@@ -147,7 +147,7 @@ def get_results(pya):
                 nodalstress = []
                 stress_i[i] = stress
 
-            # Nodal Results(can be anything basically)
+            # Nodal Results (can be anything basically)
             if len(nodalresults):
                 nodal = {}
 
@@ -194,7 +194,7 @@ def get_results(pya):
                         break
 
         # if we have displacements without stresses, fake having stresses to
-        # keep freecad happy
+        # keep FreeCAD happy
         # if wrote_nodal and not wrote_stress:
             # stress = {}
             # stressv = {}

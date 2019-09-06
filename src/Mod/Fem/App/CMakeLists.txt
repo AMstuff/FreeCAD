@@ -65,11 +65,13 @@ SET(Python_SRCS
 
 
 if(BUILD_FEM_VTK)
-    SET(Python_SRCS
-        ${Python_SRCS}
-        FemPostPipelinePy.xml
-        FemPostPipelinePyImp.cpp
-    )
+find_package(VTK REQUIRED)
+include(${VTK_USE_FILE})
+SET(Python_SRCS
+    ${Python_SRCS}
+    FemPostPipelinePy.xml
+    FemPostPipelinePyImp.cpp
+)
 endif(BUILD_FEM_VTK)
 SOURCE_GROUP("Python" FILES ${Python_SRCS})
 
